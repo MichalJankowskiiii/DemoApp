@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "mjtest123456"
+        },
+        "location": {
+            "value": "UK West"
+        },
+        "hostingPlanName": {
+            "value": "AppPlan"
+        },
+        "alwaysOn": {
+            "value": true
+        },
+        "ftpsState": {
+            "value": "FtpsOnly"
+        },
+        "sku": {
+            "value": "Standard"
+        },
+        "skuCode": {
+            "value": "S1"
+        },
+        "phpVersion": {
+            "value": "OFF"
+        },
+        "netFrameworkVersion": {
+            "value": "6.0"
+        }
+    }
+}

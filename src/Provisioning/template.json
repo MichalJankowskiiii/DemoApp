@@ -1,0 +1,104 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "subscriptionId": {
+            "type": "String"
+        },
+        "name": {
+            "type": "String"
+        },
+        "location": {
+            "type": "String"
+        },
+        "hostingPlanName": {
+            "type": "String"
+        },
+        "serverFarmResourceGroup": {
+            "type": "String"
+        },
+        "alwaysOn": {
+            "type": "Bool"
+        },
+        "ftpsState": {
+            "type": "String"
+        },
+        "sku": {
+            "type": "String"
+        },
+        "skuCode": {
+            "type": "String"
+        },
+        "workerSize": {
+            "type": "String"
+        },
+        "workerSizeId": {
+            "type": "String"
+        },
+        "numberOfWorkers": {
+            "type": "String"
+        },
+        "currentStack": {
+            "type": "String"
+        },
+        "phpVersion": {
+            "type": "String"
+        },
+        "netFrameworkVersion": {
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('name')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
+            ],
+            "properties": {
+                "name": "[parameters('name')]",
+                "siteConfig": {
+                    "appSettings": [
+                    ],
+                    "metadata": [
+                        {
+                            "name": "CURRENT_STACK",
+                            "value": "[parameters('currentStack')]"
+                        }
+                    ],
+                    "phpVersion": "[parameters('phpVersion')]",
+                    "netFrameworkVersion": "[parameters('netFrameworkVersion')]",
+                    "alwaysOn": "[parameters('alwaysOn')]",
+                    "ftpsState": "[parameters('ftpsState')]"
+                },
+                "serverFarmId": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourcegroups/', parameters('serverFarmResourceGroup'), '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "clientAffinityEnabled": true,
+                "virtualNetworkSubnetId": null,
+                "httpsOnly": true,
+                "publicNetworkAccess": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('hostingPlanName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [],
+            "sku": {
+                "Tier": "[parameters('sku')]",
+                "Name": "[parameters('skuCode')]"
+            },
+            "kind": "",
+            "properties": {
+                "name": "[parameters('hostingPlanName')]",
+                "workerSize": "[parameters('workerSize')]",
+                "workerSizeId": "[parameters('workerSizeId')]",
+                "numberOfWorkers": "[parameters('numberOfWorkers')]",
+                "zoneRedundant": false
+            }
+        }
+    ]
+}
